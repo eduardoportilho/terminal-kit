@@ -355,6 +355,8 @@ Available actions are:
 * startOfInput: move the cursor at the begining of input (default: HOME)
 * endOfInput: move the cursor at the end of input (default: END)
 * autoComplete: auto-complete the input (default: TAB)
+* meta: if bound to ESCAPE, allows for two-key combos like ESC-D to generate an ALT_D 
+  (useful for terminals that do not have a modifier key assigned to alt/meta)
 
 It returns an EventEmitter object featuring some functions to control things during the input process:
 
@@ -365,9 +367,11 @@ It returns an EventEmitter object featuring some functions to control things dur
 * redraw(): redraw the input field, useful if you had echo'ed something that can mess it
 * hide(): hide the input field, it still records keystrokes
 * show(): show the input field again
-* rebase(): rebase the input field to the current cursor position. Please note: it does NOT erase the previously entered
+* rebase( [x] , [y] ): rebase the input field to the current cursor position. Please note: it does NOT erase the previously entered
   text, you have to use hide() before. It works this way because you may want to modify the screen in between, and
   it needs some I/O with the terminal to works accordingly.
+  If *x* and *y* are given, it use those coordinates instead of an internal asynchronous call to .getCursorLocation(),
+  so it makes *.rebase()* synchronous.
 
 It emits:
 
@@ -845,6 +849,9 @@ When the user press RETURN/ENTER, it displays the index, text and coordinates of
 	* barHeadChar `string` the char used for the bar, default to '>'
 	* maxRefreshTime `number` the maximum time between two refresh in ms, default to 500ms
 	* minRefreshTime `number` the minimum time between two refresh in ms, default to 100ms
+	* inline `boolean`
+		* when false (the default), the progressBar is locked in-place, it always redraws itself on the same place
+		* when true, the progressBar is redrawn on the beginning of the current line
 	* syncMode `boolean`
 		* when false (the default), the progressBar works asynchronously, every few milliseconds
 		  it is redrawn. Note that it will fail for CPU bound tasks, if the tasks do not let the event loop breathes

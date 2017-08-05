@@ -1,4 +1,22 @@
 
+v1.11.2
+-------
+
+New: .inputField() now supports a meta key binding (PR #40 by samizdatco)
+
+
+v1.11.1
+-------
+
+New: .inputField()'s .rebase() method now supports an x and y arguments to use as the new coordinates instead of the result of an asynchronous internal call to .getCursorLocation() (PR #38)
+
+
+v1.11.0
+-------
+
+New: .progressBar() now supports option 'inline', so it redraws itself at the begining of the current line instead of being locked in-place (fix issue #36)
+
+
 v1.10.2
 -------
 
